@@ -2,7 +2,6 @@ package com.nguyenhoanglam.imagepicker.ui.imagepicker;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -52,8 +51,8 @@ public class AssetFileLoader {
         }
     }
 
-    public void loadDeviceAssets(boolean includeVideos, boolean isFolderMode, OnAssetLoaderListener listener) {
-        getExecutorService().execute(new AssetLoadRunnable(includeVideos, isFolderMode, listener));
+    public void loadDeviceAssets(boolean includeVideos, boolean includeOnlyVideos, boolean isFolderMode, OnAssetLoaderListener listener) {
+        getExecutorService().execute(new AssetLoadRunnable(includeVideos,includeOnlyVideos , isFolderMode, listener));
     }
 
     public void abortLoadAssets() {
@@ -75,10 +74,12 @@ public class AssetFileLoader {
 
         private boolean isFolderMode;
         private boolean includeVideos;
+        private boolean includeOnlyVideos;
         private OnAssetLoaderListener listener;
 
-        public AssetLoadRunnable(boolean includeVideos, boolean isFolderMode, OnAssetLoaderListener listener) {
+        public AssetLoadRunnable(boolean includeVideos, boolean includeOnlyVideos, boolean isFolderMode, OnAssetLoaderListener listener) {
             this.includeVideos = includeVideos;
+            this.includeOnlyVideos=includeOnlyVideos;
             this.isFolderMode = isFolderMode;
             this.listener = listener;
         }
@@ -93,16 +94,29 @@ public class AssetFileLoader {
                     + " OR "
                     + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                     + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+            String selectionVideos = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                    + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
             Uri queryUri = MediaStore.Files.getContentUri("external");
-
-            Cursor cursor = context.getContentResolver().query(
-                    queryUri,
-                    projection,
-                    includeVideos ? selectionImagesAndVideo : selectionImages,
-                    null,
-                    MediaStore.Files.FileColumns.DATE_ADDED
-            );
+            Cursor cursor;
+            if(includeOnlyVideos){
+                cursor = context.getContentResolver().query(
+                        queryUri,
+                        projection,
+                        selectionVideos,
+                        null,
+                        MediaStore.Files.FileColumns.DATE_ADDED
+                );
+            }
+            else{
+                cursor = context.getContentResolver().query(
+                        queryUri,
+                        projection,
+                        includeVideos ? selectionImagesAndVideo : selectionImages,
+                        null,
+                        MediaStore.Files.FileColumns.DATE_ADDED
+                );
+            }
 
             if (cursor == null) {
                 listener.onFailed(new NullPointerException());

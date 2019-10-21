@@ -46,6 +46,7 @@ public class Config implements Parcelable {
     private boolean isMultipleMode;
     private boolean isFolderMode;
     private boolean includeVideos;
+    private boolean includeOnlyVideos;
     private String videoOrImagePickerTitle;
     private boolean isShowCamera;
     private int maxSize;
@@ -74,6 +75,7 @@ public class Config implements Parcelable {
         this.isMultipleMode = in.readByte() != 0;
         this.isFolderMode = in.readByte() != 0;
         this.includeVideos = in.readByte() != 0;
+        this.includeOnlyVideos = in.readByte() != 0;
         this.videoOrImagePickerTitle = in.readString();
         this.isShowCamera = in.readByte() != 0;
         this.maxSize = in.readInt();
@@ -184,6 +186,14 @@ public class Config implements Parcelable {
 
     public void setIncludeVideos(boolean includeVideos) {
         this.includeVideos = includeVideos;
+    }
+
+    public boolean isIncludeOnlyVideos() {
+        return includeOnlyVideos;
+    }
+
+    public void setIncludeOnlyVideos(boolean includeOnlyVideos) {
+        this.includeOnlyVideos = includeOnlyVideos;
     }
 
     public String getVideoOrImagePickerTitle() {
@@ -299,6 +309,7 @@ public class Config implements Parcelable {
         dest.writeByte(this.isMultipleMode ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isFolderMode ? (byte) 1 : (byte) 0);
         dest.writeByte(this.includeVideos ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.includeOnlyVideos ? (byte) 1 : (byte) 0);
         dest.writeString(this.videoOrImagePickerTitle);
         dest.writeByte(this.isShowCamera ? (byte) 1 : (byte) 0);
         dest.writeInt(this.maxSize);

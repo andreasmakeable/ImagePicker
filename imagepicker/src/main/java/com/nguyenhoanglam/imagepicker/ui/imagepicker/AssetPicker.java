@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+
 import androidx.fragment.app.Fragment;
 
 import com.nguyenhoanglam.imagepicker.R;
@@ -168,6 +169,10 @@ public class AssetPicker {
             config.setIncludeVideos(includeVideos);
             return this;
         }
+        public Builder setIncludeOnlyVideos(boolean includeOnlyVideos) {
+            config.setIncludeOnlyVideos(includeOnlyVideos);
+            return this;
+        }
 
         public Builder setVideoOrImagePickerTitle(String title) {
             config.setVideoOrImagePickerTitle(title);
@@ -247,6 +252,7 @@ public class AssetPicker {
             config.setMultipleMode(true);
             config.setFolderMode(true);
             config.setIncludeVideos(false);
+            config.setIncludeOnlyVideos(false);
             config.setShowCamera(true);
             config.setMaxSize(Config.MAX_SIZE);
             config.setDoneTitle(resources.getString(R.string.imagepicker_action_done));

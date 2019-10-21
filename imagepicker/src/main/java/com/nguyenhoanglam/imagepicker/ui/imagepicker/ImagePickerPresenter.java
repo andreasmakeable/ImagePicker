@@ -38,11 +38,11 @@ public class ImagePickerPresenter extends BasePresenter<ImagePickerView> {
         imageLoader.abortLoadAssets();
     }
 
-    public void loadAssets(boolean includeVideos, boolean isFolderMode) {
+    public void loadAssets(boolean includeVideos, boolean includeOnlyVideos, boolean isFolderMode) {
         if (!isViewAttached()) return;
 
         getView().showLoading(true);
-        imageLoader.loadDeviceAssets(includeVideos, isFolderMode, new OnAssetLoaderListener() {
+        imageLoader.loadDeviceAssets(includeVideos,includeOnlyVideos , isFolderMode, new OnAssetLoaderListener() {
             @Override
             public void onAssetLoaded(final List<Asset> assets, final List<Folder> folders) {
                 handler.post(new Runnable() {
@@ -72,7 +72,7 @@ public class ImagePickerPresenter extends BasePresenter<ImagePickerView> {
                     }
                 });
             }
-        });
+        } );
     }
 
     void captureImage(Activity activity, Config config, int requestCode) {
