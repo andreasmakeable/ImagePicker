@@ -9,22 +9,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.nguyenhoanglam.imagepicker.R;
 import com.nguyenhoanglam.imagepicker.helper.CameraHelper;
 import com.nguyenhoanglam.imagepicker.helper.LogHelper;
 import com.nguyenhoanglam.imagepicker.helper.PermissionHelper;
-import com.nguyenhoanglam.imagepicker.listener.OnBackAction;
-import com.nguyenhoanglam.imagepicker.listener.OnFolderClickListener;
 import com.nguyenhoanglam.imagepicker.listener.OnAssetClickListener;
 import com.nguyenhoanglam.imagepicker.listener.OnAssetSelectionListener;
+import com.nguyenhoanglam.imagepicker.listener.OnBackAction;
+import com.nguyenhoanglam.imagepicker.listener.OnFolderClickListener;
 import com.nguyenhoanglam.imagepicker.model.Asset;
 import com.nguyenhoanglam.imagepicker.model.Config;
 import com.nguyenhoanglam.imagepicker.model.Folder;
@@ -223,7 +224,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
 
     private void getData() {
         presenter.abortLoading();
-        presenter.loadAssets(config.isIncludeVideos(), config.isFolderMode());
+        presenter.loadAssets(config.isIncludeVideos(), config.isIncludeOnlyVideos(), config.isFolderMode());
     }
 
 
